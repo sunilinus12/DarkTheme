@@ -1,119 +1,16 @@
-import { StyleSheet, Text, View, Appearance, Button, Image, ScrollView, Switch } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import Home from './components/Home'
+import { NavigationContainer } from '@react-navigation/native'
+import Stack from './navigators/Stack'
+
 
 export default function App() {
-  const colorscheme = Appearance.getColorScheme();
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    setTheme(e => !e);
-  };
-  const [theme, setTheme] = useState(false);
-  Appearance.addChangeListener(e => {
-    console.log(e);
-    if (e.colorScheme === 'dark') {
-      setTheme(true);
-    } else setTheme(false);
-  });
-
-  useEffect(() => {
-    console.log(colorscheme);
-  }, [colorscheme]);
-
-  const Card = () => {
-
-    return (
-      <View style={{
-        width: "100%",
-        height: 130,
-        backgroundColor: "white",
-        flexDirection: "row",
-        marginVertical: 10
-      }
-      }>
-
-        <Image
-          source={{ uri: "https://cars.tatamotors.com/images/tiago/color/tiago-plum-wine-desktop.jpg" }}
-          style={{ flex: 0.3 }}
-
-
-        />
-        <View style={{
-          flex: 0.7,
-          backgroundColor: "white",
-          paddingVertical: 2,
-          paddingHorizontal: 5
-        }}>
-          <Text style={{
-            fontSize: 16,
-            color: "gray"
-          }}>Business</Text>
-          <Text style={{
-            fontSize: 17,
-            fontWeight: "600",
-            marginTop: 7,
-            color: theme ? 'black' : 'black'
-          }}>How netflix brings safer & faster streaming...</Text>
-          <Text style={{
-            fontSize: 14,
-            marginVertical: 5,
-            fontWeight: "400",
-            color: theme ? 'black' : 'black'
-          }}>Kevin Peter</Text>
-          <Text style={{
-            fontSize: 13,
-            color: "gray"
-          }}>22 Octo 2022  : 5m read</Text>
-        </View>
-      </View>
-    )
-  }
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={[styles.center, { backgroundColor: theme ? 'black' : 'white', }]}>
-      <View style={{
-        flexDirection: 'row', justifyContent: 'space-between',
-        height: 50,
+    <NavigationContainer>
+      <Stack />
+    </NavigationContainer>
 
-      }}>
-        <Text style={{
-          fontSize: 20,
-          fontWeight: "900",
-          marginTop: 10,
-          color: theme ? 'white' : 'black'
-        }}>Ned Stark</Text>
-        <Switch
-          trackColor={{ false: "#767577", true: "whitesmoke" }}
-          thumbColor={isEnabled ? "white" : "black"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-          width={60}
-        />
-      </View>
-
-
-      <Text style={{
-        fontSize: 13, marginVertical: 10,
-        color: theme ? 'whitesmoke' : 'black'
-      }}>Your daily news:</Text>
-
-      {
-        Array(10).fill("").map((item, key) => (
-          <Card />
-        ))
-      }
-    </ScrollView>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-
-
-  }
-});
