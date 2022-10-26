@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Appearance, Button, Image, ScrollView, Switch, 
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { isDarkMode } from '../redux/reducers/Logic';
+import { ActiveDarkMode, DeactiveDarkMode } from '../redux/reducers/Logic';
 
 
 export default function Home() {
@@ -14,12 +14,15 @@ export default function Home() {
     const dispatch = useDispatch();
     const toggleSwitch = () => {
 
-        setIsEnabled(e => !e);
-        dispatch(isDarkMode());
-
-
+        if (isEnabled) {
+            setIsEnabled(false);
+            dispatch(DeactiveDarkMode());
+        }
+        else {
+            setIsEnabled(true);
+            dispatch(ActiveDarkMode());
+        }
     };
-
     useEffect(() => {
         if (theme) {
             setIsEnabled(true);
@@ -27,18 +30,25 @@ export default function Home() {
         else {
             setIsEnabled(false);
         }
-    }, [theme])
+    }, [theme]);
+
+
 
 
     Appearance.addChangeListener(e => {
         console.log(e);
+        // if (e.colorScheme === 'dark') {
+        //     console.log("in..")
+        //     dispatch(ActiveDarkMode());
+        // }
+
         if (e.colorScheme === 'dark') {
-            console.log("working..")
-            dispatch(isDarkMode());
+            dispatch(ActiveDarkMode());
         }
-        else if (theme && e.colorscheme === 'light') {
-            dispatch(isDarkMode());
+        else if (e.colorScheme === 'light') {
+            dispatch(DeactiveDarkMode());
         }
+
     });
 
 

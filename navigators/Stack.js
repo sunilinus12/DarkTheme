@@ -20,8 +20,6 @@ export default function Stack() {
                     fontWeight: "100",
                     fontFamily: "sans-serif",
                     color: theme ? "white" : 'black',
-
-
                 },
                 headerShadowVisible: true,
                 headerTintColor: theme ? "white" : 'black'
