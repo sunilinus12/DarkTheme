@@ -1,25 +1,46 @@
 import { StyleSheet, Text, View, Appearance, Button, Image, ScrollView, Switch, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { isDarkMode } from '../redux/reducers/Logic';
+
 
 export default function Home() {
     const colorscheme = Appearance.getColorScheme();
     const [isEnabled, setIsEnabled] = useState(false);
+    const theme = useSelector((s) => s.Darkmode.value);
+
+
+    const dispatch = useDispatch();
     const toggleSwitch = () => {
-        setIsEnabled(previousState => !previousState);
-        setTheme(e => !e);
+
+        setIsEnabled(e => !e);
+        dispatch(isDarkMode());
+
+
     };
-    const [theme, setTheme] = useState(false);
+
+    useEffect(() => {
+        if (theme) {
+            setIsEnabled(true);
+        }
+        else {
+            setIsEnabled(false);
+        }
+    }, [theme])
+
+
     Appearance.addChangeListener(e => {
         console.log(e);
         if (e.colorScheme === 'dark') {
-            setTheme(true);
-        } else setTheme(false);
+            console.log("working..")
+            dispatch(isDarkMode());
+        }
+        else if (theme && e.colorscheme === 'light') {
+            dispatch(isDarkMode());
+        }
     });
 
-    useEffect(() => {
-        console.log(colorscheme);
-    }, [colorscheme]);
 
     const Card = () => {
 
@@ -30,7 +51,7 @@ export default function Home() {
             <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={() => {
-                    console.log("working..");
+
                     navigation.navigate("detail");
                 }}
             >
@@ -80,12 +101,13 @@ export default function Home() {
                 height: 50,
 
             }}>
+
                 <Text style={{
                     fontSize: 20,
                     fontWeight: "900",
                     marginTop: 10,
                     color: theme ? 'white' : 'black'
-                }}>Ned Stark</Text>
+                }}>Ned Stark {theme ? "true" : "false"} </Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "whitesmoke" }}
                     thumbColor={isEnabled ? "white" : "black"}
