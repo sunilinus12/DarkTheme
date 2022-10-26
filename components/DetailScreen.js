@@ -1,12 +1,15 @@
 import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 export default function DetailScreen() {
+    const theme = useSelector(e => e.Darkmode.value);
+
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}>
-            <View style={[styles.container, { backgroundColor: "white" }]}>
-                <Text style={[styles.text, { color: "black" }]}>
+            <View style={[styles.container, { backgroundColor: theme ? "black" : "white" }]}>
+                <Text style={[styles.text, { color: theme ? "white" : "black" }]}>
                     New York won't return to normal life soon,
                     though it has reduced 42% of its air pollution
                 </Text>
@@ -19,6 +22,7 @@ export default function DetailScreen() {
                         <Text
                             style={{
                                 fontSize: 14,
+                                color: theme ? "white" : "black"
 
                             }}>Continue ...</Text>
                     </View>
@@ -26,7 +30,8 @@ export default function DetailScreen() {
                         <Text
                             style={{
                                 fontSize: 14,
-                                fontWeight: "400"
+                                fontWeight: "400",
+                                color: theme ? "white" : "black"
                             }}>Related Posts</Text>
                     </View>
 
