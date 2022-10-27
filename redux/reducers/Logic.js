@@ -2,22 +2,22 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     value: false,
+
 }
 
 export const Darkmode = createSlice({
     name: 'Darkmode',
     initialState,
+
     reducers: {
-        ActiveDarkMode: (state) => {
-            state.value = true;
+        ActiveDarkMode: (state,action) => {
+            state.value = action.payload;
         },
-        DeactiveDarkMode: (state) => {
-            state.value = false;
-        },
+      
 
     },
 })
 
-export const { ActiveDarkMode, DeactiveDarkMode } = Darkmode.actions;
+export const { ActiveDarkMode} = Darkmode.actions;
 
 export default Darkmode.reducer;

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Appearance, Button, Image, ScrollView, Switch, 
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActiveDarkMode, DeactiveDarkMode } from '../redux/reducers/Logic';
+import { ActiveDarkMode } from '../redux/reducers/Logic';
 
 
 export default function Home() {
@@ -16,11 +16,11 @@ export default function Home() {
 
         if (isEnabled) {
             setIsEnabled(false);
-            dispatch(DeactiveDarkMode());
+            dispatch(ActiveDarkMode(false));
         }
         else {
             setIsEnabled(true);
-            dispatch(ActiveDarkMode());
+            dispatch(ActiveDarkMode(true));
         }
     };
     useEffect(() => {
@@ -37,17 +37,14 @@ export default function Home() {
 
     Appearance.addChangeListener(e => {
         console.log(e);
-        // if (e.colorScheme === 'dark') {
-        //     console.log("in..")
-        //     dispatch(ActiveDarkMode());
-        // }
 
         if (e.colorScheme === 'dark') {
-            dispatch(ActiveDarkMode());
+            dispatch(ActiveDarkMode(true));
         }
-        else if (e.colorScheme === 'light') {
-            dispatch(DeactiveDarkMode());
+        else {
+            dispatch(ActiveDarkMode(false));
         }
+
 
     });
 
